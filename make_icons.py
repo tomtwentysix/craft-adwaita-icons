@@ -192,15 +192,17 @@ def figcraft():
             + f'<path d="{cursor}" fill="{DARK[3]}" stroke="{LIGHT[0]}" stroke-width="3" stroke-linejoin="round"/>')
 
 
-def wordcraft():
-    pen = '<g transform="rotate(40 90 86)">' \
-          f'<rect x="84" y="40" width="14" height="44" rx="4" fill="{INDIGO[3]}"/>' \
-          f'<rect x="84" y="40" width="7" height="44" rx="3" fill="{INDIGO[2]}"/>' \
-          f'<rect x="83" y="76" width="16" height="6" fill="{YELLOW[3]}"/>' \
-          f'<path d="M84 82h14l-7 22z" fill="{DARK[2]}"/></g>'
-    return (page(16, 10, 84, 104)
-            + f'<rect x="28" y="30" width="44" height="7" rx="3.5" fill="{INDIGO[2]}"/>'
-            + lines(28, 46, [56, 60, 52, 58, 40, 50, 30], 9, LIGHT[3])
+def wordcraft(tip=(80, 100), angle=40):
+    # Drawn with the nib tip at the origin, pointing down, then rotated to lean on the page.
+    body = "M-6-21v-25a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v25z"
+    pen = (f'<g transform="translate({tip[0]} {tip[1]}) rotate({angle})">'
+           f'<path d="{body}M-6-16h12L0 0z" transform="translate(3 2)" fill="{DARK[4]}" fill-opacity=".2"/>'
+           f'<path d="{body}" fill="{INDIGO[3]}"/><path d="M-6-21v-25a4 4 0 0 1 4-4h2v29z" fill="{INDIGO[2]}"/>'
+           f'<rect x="-6.5" y="-21" width="13" height="5" fill="{YELLOW[3]}"/>'
+           f'<path d="M-6-16h12L0 0z" fill="{DARK[2]}"/><path d="M0-12v8" stroke="{LIGHT[3]}" stroke-width="1.5"/></g>')
+    return (page(22, 10, 84, 104)
+            + f'<rect x="34" y="30" width="44" height="7" rx="3.5" fill="{INDIGO[2]}"/>'
+            + lines(34, 46, [56, 60, 52, 58, 40, 50, 30], 9, LIGHT[3])
             + pen)
 
 

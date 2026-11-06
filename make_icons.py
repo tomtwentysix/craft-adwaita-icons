@@ -69,16 +69,34 @@ def artcraft():
     return body + f'<path d="{star}" fill="{YELLOW[1]}"/>'
 
 
+def feather(dx, dy, scale):
+    """A white quill, drawn tip top-right on a 128px grid, with a soft shadow beneath it."""
+    vane = "M38 92C34 60 62 28 102 20 100 58 74 88 38 92z"
+    upper = "M38 92C34 60 62 28 102 20 80 46 60 70 38 92z"
+    # Wedges pointing at the shaft from outside the vane edge, masked out as the gaps between barbs.
+    notches = "".join(f'<path d="{n}"/>' for n in ["M44 46 58 50 50 36z", "M92 64 77 62 84 78z", "M70 86 59 79 60 94z"])
+    barbs = "".join(f'<path d="M{x0} {y0}L{x1} {y1}"/>' for x0, y0, x1, y1 in
+                    [(60, 66, 48, 58), (72, 52, 62, 42), (84, 38, 78, 30), (62, 64, 76, 70), (74, 50, 88, 54)])
+    return (f'<g transform="translate({dx} {dy}) scale({scale})">'
+            '<mask id="notches" maskUnits="userSpaceOnUse" x="0" y="0" width="128" height="128">'
+            f'<rect width="128" height="128" fill="#fff"/><g fill="#000">{notches}</g></mask>'
+            f'<path d="{vane}" transform="translate(3 5)" fill="{DARK[4]}" fill-opacity=".25" mask="url(#notches)"/>'
+            f'<g mask="url(#notches)"><path d="{vane}" fill="{LIGHT[2]}"/><path d="{upper}" fill="{LIGHT[0]}"/>'
+            f'<g stroke="{LIGHT[3]}" stroke-width="1.5" stroke-linecap="round">{barbs}</g></g>'
+            f'<path d="M24 108C46 84 74 54 102 20" stroke="{DARK[2]}" stroke-width="3" stroke-linecap="round" fill="none"/></g>')
+
+
 def photocraft():
-    return (slab(26, 14, 88, 70, 8, BLUE[3], BLUE[4])
-            + slab(14, 30, 92, 76, 8, LIGHT[1], LIGHT[3])
+    return ('<g transform="translate(0 -6)">'
+            + slab(14, 30, 92, 76, 8, BLUE[2], BLUE[4])
             + '<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">'
-              f'<stop offset="0" stop-color="{BLUE[2]}"/><stop offset="1" stop-color="{BLUE[0]}"/></linearGradient>'
+              f'<stop offset="0" stop-color="{BLUE[1]}"/><stop offset="1" stop-color="{BLUE[0]}"/></linearGradient>'
               '<clipPath id="pic"><rect x="22" y="38" width="76" height="60" rx="3"/></clipPath></defs>'
             + '<g clip-path="url(#pic)"><rect x="22" y="38" width="76" height="60" fill="url(#sky)"/>'
             + f'<circle cx="80" cy="56" r="8" fill="{YELLOW[2]}"/>'
             + f'<path d="M14 100l26-34 18 22 12-12 30 24z" fill="{GREEN[4]}"/>'
-            + f'<path d="M40 66l8 10-8-3-6 5z" fill="{LIGHT[0]}"/></g>')
+            + f'<path d="M40 66l8 10-8-3-6 5z" fill="{LIGHT[0]}"/></g></g>'
+            + feather(22, 14, 0.96))
 
 
 def vectorcraft():

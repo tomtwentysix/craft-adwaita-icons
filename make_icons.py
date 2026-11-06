@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Generates Adwaita-style 128px app icons for the Craft App Suite into icons/scalable/apps."""
+"""Generates Adwaita-style 128px app icons for the Craft App Suite into icons/, as SVGs plus
+PNGs at every fixed hicolor size (rendered with Inkscape)."""
 import math
+import subprocess
 from pathlib import Path
 
-OUT = Path(__file__).parent / "icons" / "scalable" / "apps"
+ROOT = Path(__file__).parent / "icons"
+OUT = ROOT / "scalable" / "apps"
+SIZES = [16, 24, 32, 48, 64, 128, 256, 512]
 
 # Adwaita palette (GNOME HIG), plus the suite colours Adwaita has no close match for.
 LIGHT = ["#ffffff", "#f6f5f4", "#deddda", "#c0bfbc", "#9a9996"]
@@ -314,5 +318,11 @@ if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     for name, draw in ICONS.items():
         svg = f'<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">{draw()}</svg>\n'
-        (OUT / f"{name}.svg").write_text(svg)
-    print(f"wrote {len(ICONS)} icons to {OUT}")
+        path = OUT / f"{name}.svg"
+        path.write_text(svg)
+        for size in SIZES:
+            png = ROOT / f"{size}x{size}" / "apps" / f"{name}.png"
+            png.parent.mkdir(parents=True, exist_ok=True)
+            subprocess.run(["inkscape", path, "-w", str(size), "-h", str(size), "-o", png],
+                           check=True, stderr=subprocess.DEVNULL)
+    print(f"wrote {len(ICONS)} icons to {ROOT}")

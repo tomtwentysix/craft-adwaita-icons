@@ -13,17 +13,17 @@ app's own icon name, so installing it replaces that app's packaged icon.
 ## Install
 
 ```bash
-./install.sh
+git clone https://github.com/tomtwentysix/craft-adwaita-icons.git && cd craft-adwaita-icons && ./install.sh
 ```
 
-This installs into `~/.local/share/icons/hicolor` as SVGs plus PNGs at every fixed size, because
-GTK prefers a packaged exact-size PNG over a scalable SVG. Remove them with `./install.sh --uninstall`.
-Rendering the PNGs needs Inkscape.
+This copies the icons into `~/.local/share/icons/hicolor` as SVGs plus PNGs at every fixed size,
+because GTK prefers a packaged exact-size PNG over a scalable SVG. Remove them with
+`./install.sh --uninstall`.
 
 ## Editing
 
 The icons are drawn in code in `make_icons.py`, using the GNOME palette on a 128px grid. Run
-`./make_icons.py` to regenerate `icons/scalable/apps`.
+`./make_icons.py` to regenerate everything in `icons/`; rendering the PNGs needs Inkscape.
 
 The ArtCraft icon is named `ai.storyteller.artcraft`. If your ArtCraft desktop file uses a different
 `Icon=`, rename that SVG to match.

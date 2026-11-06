@@ -28,4 +28,7 @@ The icons are drawn in code in `make_icons.py`, using the GNOME palette on a 128
 The ArtCraft icon is named `ai.storyteller.artcraft`. If your ArtCraft desktop file uses a different
 `Icon=`, rename that SVG to match.
 
-Copyright © 2026 SolarFlare Developments
+## Licence
+
+Copyright © 2026 SolarFlare Developments. Licensed under
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/); see [LICENSE](LICENSE).
